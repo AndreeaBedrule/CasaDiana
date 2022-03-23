@@ -21,7 +21,7 @@ namespace CasaDiana.Service
             {
                 throw new Exception("Utilizatorul exista deja");
             }
-            PasswordHash(user.Password);
+            user.Password = PasswordHash(user.Password);
             
             return await _userRepository.AddAsync(user);
         }
