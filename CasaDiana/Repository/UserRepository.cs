@@ -1,5 +1,7 @@
-﻿using CasaDiana.Models;
+﻿using CasaDiana.Dto;
+using CasaDiana.Models;
 using CasaDiana.Service;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CasaDiana.Repository
@@ -27,6 +29,12 @@ namespace CasaDiana.Repository
                 return true;
 
             return false;
+        }
+        public User? FindByEmail(string email)
+        {
+            return _context.User
+                .Where(x => x.Email == email)
+                .FirstOrDefault();
         }
     }
 }

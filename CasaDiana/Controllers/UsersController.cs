@@ -1,4 +1,5 @@
-﻿using CasaDiana.Models;
+﻿using CasaDiana.Dto;
+using CasaDiana.Models;
 using CasaDiana.Service;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Http;
@@ -21,20 +22,33 @@ namespace CasaDiana.Controllers
 
         [HttpPost]
         [Route("/register")]
-        public async Task<ActionResult> Register(User user)
+        public async Task<ActionResult> Register(UserDto userDto)
         {
             try
             {
-                return Ok(await _userService.Register(user));
+                return Ok(await _userService.Register(userDto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }      
+        }
+
+        [HttpPost]
+        [Route("/login")]
+        public IActionResult Login(UserDto user)
+        {
+            try
+            {
+                return Ok(_userService.Login(user));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            
-           
-               
         }
+
+
         /*[HttpGet]*/
         /*public async Task<ActionResult<List<User>>> Get() 
         {
