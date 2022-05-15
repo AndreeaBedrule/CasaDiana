@@ -7,6 +7,7 @@ namespace CasaDiana.Service
     public interface IUserService
     {
         public Task<UserDto> Register(UserDto userDto);
-        public UserDto Login(UserDto userDto);
+        public string Login(AuthentiactionCredentials credentials);
+        public Task<UserDto> GetOne(int id);
     }
 }

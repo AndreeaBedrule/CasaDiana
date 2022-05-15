@@ -14,13 +14,13 @@ namespace CasaDiana.Repository
         {
             _context = context;
         }
-        
+
         public async Task<User> AddAsync(User user)
         {
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
-  
+
         }
 
         public async Task<bool> UserExists(string email)
@@ -35,6 +35,13 @@ namespace CasaDiana.Repository
             return _context.User
                 .Where(x => x.Email == email)
                 .FirstOrDefault();
+        }
+        public async Task<User> GetOne(int id)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+                throw new ArgumentException("Room not found");
+            return user;
         }
     }
 }

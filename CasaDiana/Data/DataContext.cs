@@ -9,5 +9,9 @@ namespace CasaDiana.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Room> Room { get; set; }
+        public DbSet<Reservation> Reservation { get; set; }
+
+        
     }
 }

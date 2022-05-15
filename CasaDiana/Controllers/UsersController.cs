@@ -2,6 +2,7 @@
 using CasaDiana.Models;
 using CasaDiana.Service;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace CasaDiana.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class UsersController : ControllerBase
     {
        
@@ -36,11 +38,11 @@ namespace CasaDiana.Controllers
 
         [HttpPost]
         [Route("/login")]
-        public IActionResult Login(UserDto user)
+        public IActionResult Login(AuthentiactionCredentials credentials)
         {
             try
             {
-                return Ok(_userService.Login(user));
+                return Ok(_userService.Login(credentials));
             }
             catch (Exception e)
             {
@@ -48,19 +50,11 @@ namespace CasaDiana.Controllers
             }
         }
 
-
-        /*[HttpGet]*/
-        /*public async Task<ActionResult<List<User>>> Get() 
+        [HttpGet]
+        [Route("/getOneUser")]
+        public async Task<ActionResult> GetOneUser(int id)
         {
-            return Ok(await _context.User.ToListAsync());
-        }*/
-
-        /*[HttpPost]*/
-        /*public async Task<ActionResult<List<User>>> AddUser(User user)
-        {
-            users.Add(user);
-            return Ok(users);
-        }*/
-
+            return Ok(await _userService.GetOne(id));
+        }
     }
 }

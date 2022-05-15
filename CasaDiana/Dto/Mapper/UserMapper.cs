@@ -16,6 +16,7 @@ namespace CasaDiana.Dto.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
+                Rol = user.Rol,
             };          
                
            
@@ -32,6 +33,7 @@ namespace CasaDiana.Dto.Mapper
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 PhoneNumber = userDto.PhoneNumber,
+                Rol= userDto.Rol,
             };
 
 

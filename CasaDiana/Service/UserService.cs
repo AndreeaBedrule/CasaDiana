@@ -4,6 +4,9 @@ using CasaDiana.Models;
 using CasaDiana.Repository;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,10 +15,12 @@ namespace CasaDiana.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
         
         public async Task<UserDto> Register(UserDto userDto)
@@ -43,21 +48,54 @@ namespace CasaDiana.Service
              }
              return hash;
          }
-        public UserDto Login(UserDto userDto)
+        public string Login(AuthentiactionCredentials credentials)
         {
-            var user = _userRepository.FindByEmail(userDto.Email);
+            var user = _userRepository.FindByEmail(credentials.Email);
 
             if (user == null)
             {
                 throw new Exception("Userul nu exista");
             }
 
-            if (user.Password != PasswordHash(userDto.Password))
+            if (user.Password != PasswordHash(credentials.Password))
             {
                 throw new Exception("Wrong username or password.");
             }
 
-            return UserMapper.userToUserDto(user);
+            string token = CreateToken(credentials);
+
+            return token;
+
+        }
+
+        public string CreateToken(AuthentiactionCredentials credentials)
+        {
+            List<Claim> claims = new List<Claim>()
+            {
+                //new Claim(ClaimTypes.Email, userDto.Email)
+                new Claim("email", credentials.Email)
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+
+
+        public async Task<UserDto> GetOne(int id)
+        {
+            return UserMapper.userToUserDto(
+                await _userRepository.GetOne(id));
 
         }
     

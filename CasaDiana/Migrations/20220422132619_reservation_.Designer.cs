@@ -4,6 +4,7 @@ using CasaDiana.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasaDiana.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220422132619_reservation_")]
+    partial class reservation_
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,31 @@ namespace CasaDiana.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("CasaDiana.Models.Facilities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Bath")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HairDryer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PetFriendly")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Smoking")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Facilities");
+                });
 
             modelBuilder.Entity("CasaDiana.Models.Reservation", b =>
                 {
@@ -36,15 +63,13 @@ namespace CasaDiana.Migrations
                     b.Property<DateTime>("Check_out")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
 
                     b.HasIndex("UserId");
 
@@ -59,33 +84,44 @@ namespace CasaDiana.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Bath")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Floor")
                         .HasColumnType("int");
 
-                    b.Property<bool>("HairDryer")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomtypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomtypeId");
+
+                    b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("CasaDiana.Models.RoomType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FacilitiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfPersons")
                         .HasColumnType("int");
 
-                    b.Property<bool>("PetFriendly")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Smoking")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Room");
+                    b.HasIndex("FacilitiesId");
+
+                    b.ToTable("RoomType");
                 });
 
             modelBuilder.Entity("CasaDiana.Models.User", b =>
@@ -126,21 +162,35 @@ namespace CasaDiana.Migrations
 
             modelBuilder.Entity("CasaDiana.Models.Reservation", b =>
                 {
-                    b.HasOne("CasaDiana.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CasaDiana.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Room");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CasaDiana.Models.Room", b =>
+                {
+                    b.HasOne("CasaDiana.Models.RoomType", "Roomtype")
+                        .WithMany()
+                        .HasForeignKey("RoomtypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Roomtype");
+                });
+
+            modelBuilder.Entity("CasaDiana.Models.RoomType", b =>
+                {
+                    b.HasOne("CasaDiana.Models.Facilities", "Facilities")
+                        .WithMany()
+                        .HasForeignKey("FacilitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Facilities");
                 });
 #pragma warning restore 612, 618
         }
