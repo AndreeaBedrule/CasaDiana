@@ -13,5 +13,6 @@ namespace CasaDiana.Models
         public bool Smoking { get; set; }
         public bool HairDryer { get; set; }
         public bool Bath { get; set; }
+      
     }
 }

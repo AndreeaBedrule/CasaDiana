@@ -7,6 +7,8 @@
         public Room Room { get; set; }
         public DateTime Check_in { get; set; }
         public DateTime Check_out { get; set; }
+
+        public bool Canceled { get; set; }
        
     }
 }

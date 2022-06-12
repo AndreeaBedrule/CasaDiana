@@ -40,7 +40,7 @@ namespace CasaDiana.Service
          private string PasswordHash(string password)
          {
              var crypt = new SHA256Managed();
-             string hash = String.Empty;
+            string hash = String.Empty;
              byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(password));
              foreach (byte theByte in crypto)
              {
@@ -62,18 +62,19 @@ namespace CasaDiana.Service
                 throw new Exception("Wrong username or password.");
             }
 
-            string token = CreateToken(credentials);
+            string token = CreateToken(user);
 
             return token;
 
         }
 
-        public string CreateToken(AuthentiactionCredentials credentials)
+        public string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>()
             {
-                //new Claim(ClaimTypes.Email, userDto.Email)
-                new Claim("email", credentials.Email)
+                new Claim("id", user.Id.ToString()),
+                new Claim("email", user.Email),
+                new Claim("role", user.Rol.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));

@@ -6,8 +6,12 @@ namespace CasaDiana.Dto
     {
         public int Id { get; set; } 
         public int UserId { get; set; } 
-        public int RoomId { get; set; } 
-        public DateTime Check_in { get; set; }
-        public DateTime Check_out { get; set; }
+        public int RoomId { get; set; }
+        public DateTime CheckIn { get; set; } 
+        public DateTime CheckOut { get; set; } 
+        public bool Canceled { get; set; }
+
+        public RoomDto? Room { get; set; }
     }
+
 }

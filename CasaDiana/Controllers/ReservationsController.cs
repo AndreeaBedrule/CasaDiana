@@ -29,7 +29,32 @@ namespace CasaDiana.Controllers
         {
             return Ok(await _reservationService.GetAllReservations());
         }
+        [HttpDelete]
+        [Route("/reservation/delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            return Ok(await _reservationService.Delete(id));
+        }
 
+        [HttpGet]
+        [Route("/reservation/getAllUsersReservations")]
+        public async Task<ActionResult> GetAllUsersReservations(int id)
+        {
+            return Ok(await _reservationService.GetAllUsersReservations(id));
+        }  
 
+        [HttpPut]
+        [Route("reservation/updateReservation")]
+        public async Task<ActionResult> UpdateReservation(ReservationDto reservationDto)
+        {
+            try
+            {
+                return Ok(await _reservationService.UpdateReservation(reservationDto));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

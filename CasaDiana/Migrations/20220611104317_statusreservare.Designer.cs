@@ -4,6 +4,7 @@ using CasaDiana.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasaDiana.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220611104317_statusreservare")]
+    partial class statusreservare
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace CasaDiana.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Canceled")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("Check_in")
                         .HasColumnType("datetime2");
 
@@ -41,6 +40,9 @@ namespace CasaDiana.Migrations
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

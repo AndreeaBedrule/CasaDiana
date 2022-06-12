@@ -35,5 +35,46 @@ namespace CasaDiana.Service
             return ReservationMapper.reservationsToReservationsDto(
                 await _reservationRepository.GetAll());
         }
+        public async Task<int> Delete(int id)
+        {
+            await _reservationRepository.Delete(id);
+            return id;
+        }
+
+        public async Task<List<ReservationDto>>GetAllAvaibleReservations()
+        {
+            return ReservationMapper.reservationsToReservationsDto(
+                await _reservationRepository.GetAllAvailableReservations());
+        }
+
+        public async Task<List<ReservationDto>>GetAllUsersReservations(int id)
+        {
+            return ReservationMapper.reservationsToReservationsDto(
+                await _reservationRepository.GetAllUsersReservations(id));
+        }
+
+        public async Task<ReservationDto> UpdateReservation(ReservationDto reservationDto)
+        {
+            var user = await _userRepository.GetOne(reservationDto.UserId);
+            if (null == user)
+            {
+                throw new Exception("User does not exist!");
+            }
+
+            var room = await _roomRepository.GetOne(reservationDto.RoomId);
+            if (null == room)
+            {
+                throw new Exception("Room does not exist!");
+            }
+
+            var reservationToUpdate = ReservationMapper.reservationDtoToReservation(reservationDto);
+            reservationToUpdate.User = user;
+            reservationToUpdate.Room = room;
+
+            return ReservationMapper.reservationToReservationDto(
+                await _reservationRepository.UpdateReservation(reservationToUpdate)
+                );
+        }
+
     }
 }

@@ -49,7 +49,7 @@ namespace CasaDiana.Service
         public async Task<List<Room>> GetAllAvailableRooms(DateTime check_in, DateTime check_out)
         {
             var rooms = await _roomRepository.GetAll() ;
-            var reservations = await _reservationRepository.GetAll() ;
+            var reservations = await _reservationRepository.GetAllAvailableReservations();
             var availableRooms =  new List<Room>();
             bool ok;
             foreach (var room in rooms)

@@ -9,11 +9,12 @@ namespace CasaDiana.Dto.Mapper
             return new ReservationDto
             {
                 Id = reservation.Id,
-                Check_in = reservation.Check_in,
-                Check_out = reservation.Check_out,
+                CheckIn = reservation.Check_in,
+                CheckOut = reservation.Check_out,
                 UserId = reservation.User.Id,
                 RoomId = reservation.Room.Id,
-
+                Canceled = reservation.Canceled,
+                Room = reservation.Room != null ? RoomMapper.roomToRoomDto(reservation.Room) : null,
             };
         }
 
@@ -22,9 +23,9 @@ namespace CasaDiana.Dto.Mapper
             return new Reservation
             {
                 Id = reservation.Id,
-                Check_out = reservation.Check_out,
-                Check_in = reservation.Check_in,
-
+                Check_out = reservation.CheckOut,
+                Check_in = reservation.CheckIn,
+                Canceled = reservation.Canceled,
             };
         }
 
