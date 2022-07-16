@@ -17,6 +17,11 @@ namespace CasaDiana.Service
         }
         public async Task<RoomDto> AddRoom(RoomDto roomDto)
         {
+            if (await _roomRepository.RoomExists(roomDto.Number))
+            {
+                throw new Exception("Camera deja exista.");
+            }
+
             return RoomMapper.roomToRoomDto(await _roomRepository.AddAsync(
                 RoomMapper.roomDtoToRoom(roomDto)
                 )
@@ -42,6 +47,7 @@ namespace CasaDiana.Service
 
         public async Task<RoomDto> Update(RoomDto roomDto)
         {
+            
             return RoomMapper.roomToRoomDto(await _roomRepository.UpdateRoom(
                 RoomMapper.roomDtoToRoom(roomDto)));
         }

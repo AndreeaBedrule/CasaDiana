@@ -9,5 +9,6 @@ namespace CasaDiana.Service
         public Task<UserDto> Register(UserDto userDto);
         public string Login(AuthentiactionCredentials credentials);
         public Task<UserDto> GetOne(int id);
+        public Task<UserDto> Delete(int id);
     }
 }

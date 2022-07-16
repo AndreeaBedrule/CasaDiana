@@ -10,5 +10,6 @@ namespace CasaDiana.Repository.Interfaces
         public Task<Room> Delete(int id);
         public Task<Room> UpdateRoom(Room room);
         public Task<Room> GetOne(int id);
+        public Task<Room> GetByNumber(int number);
     }
 }

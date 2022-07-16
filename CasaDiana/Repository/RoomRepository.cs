@@ -67,7 +67,10 @@ namespace CasaDiana.Repository
         }
 
         
-        
+        public async Task<Room> GetByNumber(int number)
+        {
+            return await _context.Room.Where(x => x.Number == number).FirstOrDefaultAsync();
+        }
 
 
     }

@@ -13,9 +13,9 @@ namespace CasaDiana.Dto.Mapper
                 Number = room.Number,
                 NumberOfPersons = room.NumberOfPersons,
                 Price = room.Price,
-                Smoking = room.Smoking,
-                HairDryer = room.HairDryer,
-                Bath = room.Bath,
+                //Smoking = room.Smoking,
+               // HairDryer = room.HairDryer,
+               // Bath = room.Bath,
             };
         }
 
@@ -28,10 +28,9 @@ namespace CasaDiana.Dto.Mapper
                 Number = roomDto.Number,
                 NumberOfPersons = roomDto.NumberOfPersons,
                 Price = roomDto.Price,
-                
-                Smoking = roomDto.Smoking,
-                HairDryer = roomDto.HairDryer,
-                Bath = roomDto.Bath,
+                //Smoking = roomDto.Smoking,
+                //HairDryer = roomDto.HairDryer,
+                //Bath = roomDto.Bath,
             };
         }
 

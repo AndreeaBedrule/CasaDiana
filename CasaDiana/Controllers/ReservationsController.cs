@@ -44,7 +44,7 @@ namespace CasaDiana.Controllers
         }  
 
         [HttpPut]
-        [Route("reservation/updateReservation")]
+        [Route("/reservation/update/{id}")]
         public async Task<ActionResult> UpdateReservation(ReservationDto reservationDto)
         {
             try

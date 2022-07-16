@@ -21,10 +21,22 @@ namespace CasaDiana.Service
         public async Task<ReservationDto> AddReservation(ReservationDto reservationDto)
         {
             var room = await _roomRepository.GetOne(reservationDto.RoomId);
+            if (null == room)
+            {
+                throw new Exception("Camera nu exista.");
+            }
+
             var user = await _userRepository.GetOne(reservationDto.UserId);
+            if (null == user)
+            {
+                throw new Exception("Utilizatorul nu exista.");
+            }
+
+            reservationDto.TotalPrice = (int)(reservationDto.CheckOut - reservationDto.CheckIn).TotalDays * room.Price;
             var reservation = ReservationMapper.reservationDtoToReservation(reservationDto);
             reservation.User = user;
             reservation.Room = room;
+  
             return ReservationMapper.reservationToReservationDto(await _reservationRepository.AddAsync(reservation));
                
               
@@ -68,13 +80,19 @@ namespace CasaDiana.Service
             }
 
             var reservationToUpdate = ReservationMapper.reservationDtoToReservation(reservationDto);
+           
             reservationToUpdate.User = user;
             reservationToUpdate.Room = room;
+            reservationToUpdate.TotalPrice = (int)(reservationDto.CheckOut - reservationDto.CheckIn).TotalDays * room.Price;
 
             return ReservationMapper.reservationToReservationDto(
                 await _reservationRepository.UpdateReservation(reservationToUpdate)
                 );
+            
+
+
         }
+
 
     }
 }

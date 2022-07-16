@@ -43,5 +43,17 @@ namespace CasaDiana.Repository
                 throw new ArgumentException("Room not found");
             return user;
         }
+
+        public async Task<User> Delete(int id)
+        {
+            var user = new User { Id = id };
+
+            _context.User.Attach(user);
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+
+        }
     }
 }

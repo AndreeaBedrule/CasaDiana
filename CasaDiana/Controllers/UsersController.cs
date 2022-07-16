@@ -56,5 +56,12 @@ namespace CasaDiana.Controllers
         {
             return Ok(await _userService.GetOne(id));
         }
+
+        [HttpDelete]
+        [Route("/deleteUser")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            return Ok(await _userService.Delete(id));
+        }
     }
 }

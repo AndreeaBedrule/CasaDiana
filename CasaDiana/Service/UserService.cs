@@ -25,6 +25,20 @@ namespace CasaDiana.Service
         
         public async Task<UserDto> Register(UserDto userDto)
         {
+            if (false == Utils.isValidEmail(userDto.Email))
+            {
+                throw new Exception("Email invalid");
+            }
+            if (false == Utils.isValidNumber(userDto.PhoneNumber))
+            {
+                throw new Exception("Numar de telefon invalid");
+            }
+
+            if (userDto.Password.Length < 5)
+            {
+                throw new Exception("Parola trebuie sa aiba minim 5 caractere");
+            }
+
             if (await _userRepository.UserExists(userDto.Email))
             {
                 throw new Exception("Utilizatorul exista deja");
@@ -99,9 +113,12 @@ namespace CasaDiana.Service
                 await _userRepository.GetOne(id));
 
         }
-    
 
-        
+        public async Task<UserDto> Delete(int id)
+        {
+            return UserMapper.userToUserDto(await _userRepository.Delete(id));
+        }
+
 
     }
 }
